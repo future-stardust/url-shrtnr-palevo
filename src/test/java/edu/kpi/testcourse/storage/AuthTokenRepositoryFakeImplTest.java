@@ -23,6 +23,18 @@ class AuthTokenRepositoryFakeImplTest {
   }
 
   @Test
+  void doesNotCreateDuplicateToken() {
+    // GIVEN
+    var tokenRepository = new AuthTokenRepositoryFakeImpl();
+    var token = "token1";
+    var authToken = new AuthToken(token, "user1@example.org");
+    tokenRepository.createToken(authToken);
+
+    // WHEN + THEN
+    assertThrows(RuntimeException.class, () -> tokenRepository.createToken(authToken));
+  }
+
+  @Test
   void findsCorrectToken() {
     // GIVEN
     var tokenRepository = new AuthTokenRepositoryFakeImpl();
