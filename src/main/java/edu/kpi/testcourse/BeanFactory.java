@@ -1,7 +1,5 @@
 package edu.kpi.testcourse;
 
-import edu.kpi.testcourse.storage.AuthTokenRepository;
-import edu.kpi.testcourse.storage.AuthTokenRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UrlRepository;
 import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepository;
@@ -14,11 +12,6 @@ import javax.inject.Singleton;
  */
 @Factory
 public class BeanFactory {
-
-  @Singleton
-  AuthTokenRepository createAuthTokenRepository() {
-    return new AuthTokenRepositoryFakeImpl();
-  }
 
   @Singleton
   UrlRepository createUrlRepository() {

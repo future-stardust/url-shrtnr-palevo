@@ -1,6 +1,5 @@
 package edu.kpi.testcourse.logic;
 
-import edu.kpi.testcourse.storage.AuthTokenRepository;
 import edu.kpi.testcourse.storage.UrlRepository;
 import edu.kpi.testcourse.storage.UserRepository;
 import javax.inject.Inject;
@@ -10,16 +9,14 @@ import javax.inject.Inject;
  */
 public class Logic {
   private final UserRepository users;
-  private final AuthTokenRepository tokens;
   private final UrlRepository urls;
 
   /**
    * Creates an instance.
    */
   @Inject
-  public Logic(UserRepository users, AuthTokenRepository tokens, UrlRepository urls) {
+  public Logic(UserRepository users, UrlRepository urls) {
     this.users = users;
-    this.tokens = tokens;
     this.urls = urls;
   }
 
