@@ -1,17 +1,13 @@
 package edu.kpi.testcourse.rest;
 
-import edu.kpi.testcourse.Main;
 import edu.kpi.testcourse.logic.Logic;
-import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
-
 import javax.inject.Inject;
 
 /**
- * REST API controller that provides logic for Micronaut framework.
+ * API controller for all REST API endpoints that require authentication.
  */
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller

@@ -3,7 +3,6 @@ package edu.kpi.testcourse.logic;
 import edu.kpi.testcourse.storage.AuthTokenRepository;
 import edu.kpi.testcourse.storage.UrlRepository;
 import edu.kpi.testcourse.storage.UserRepository;
-
 import javax.inject.Inject;
 
 public class LogicImpl implements Logic {

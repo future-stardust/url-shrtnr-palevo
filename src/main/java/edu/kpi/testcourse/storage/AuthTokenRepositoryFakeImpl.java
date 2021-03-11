@@ -1,11 +1,13 @@
 package edu.kpi.testcourse.storage;
 
 import edu.kpi.testcourse.entities.AuthToken;
-
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nullable;
 
+/**
+ * An in-memory fake implementation of {@link AuthTokenRepository}.
+ */
 public class AuthTokenRepositoryFakeImpl implements AuthTokenRepository {
   private final Map<String, AuthToken> map = new HashMap<>();
 

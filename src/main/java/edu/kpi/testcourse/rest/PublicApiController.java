@@ -1,19 +1,15 @@
 package edu.kpi.testcourse.rest;
 
-import edu.kpi.testcourse.Main;
 import edu.kpi.testcourse.logic.Logic;
-import edu.kpi.testcourse.storage.AuthTokenRepository;
-import edu.kpi.testcourse.storage.UserRepository;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
-
 import javax.inject.Inject;
 
 /**
- * TODO
+ * API controller for all REST API endpoints accessible without authentication.
  */
 @Controller
 public class PublicApiController {
