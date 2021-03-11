@@ -81,4 +81,12 @@ class AuthTokenRepositoryFakeImplTest {
     assertThat(tokenRepository.findToken(token)).isEqualTo(null);
   }
 
+  @Test
+  void failsToDeleteNonexistentToken() {
+    // GIVEN
+    var tokenRepository = new AuthTokenRepositoryFakeImpl();
+
+    // WHEN + THEN
+    assertThrows(RuntimeException.class, () -> tokenRepository.deleteToken("token1"));
+  }
 }

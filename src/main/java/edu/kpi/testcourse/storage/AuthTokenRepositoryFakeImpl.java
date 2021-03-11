@@ -23,6 +23,8 @@ public class AuthTokenRepositoryFakeImpl implements AuthTokenRepository {
 
   @Override
   public void deleteToken(String token) {
-    map.remove(token);
+    if (map.remove(token) == null) {
+      throw new RuntimeException("Token does not exist");
+    }
   }
 }
