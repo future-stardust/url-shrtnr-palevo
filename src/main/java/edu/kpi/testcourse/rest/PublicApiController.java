@@ -1,24 +1,30 @@
 package edu.kpi.testcourse.rest;
 
-import edu.kpi.testcourse.Main;
+import edu.kpi.testcourse.logic.Logic;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
+import javax.inject.Inject;
 
 /**
- * REST API controller that provides logic for Micronaut framework.
+ * API controller for all REST API endpoints accessible without authentication.
  */
-@Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller
-public class ApiController {
+public class PublicApiController {
 
-  record ExampleClass(String first, String second) {}
+  private final Logic logic;
 
+  @Inject
+  public PublicApiController(Logic logic) {
+    this.logic = logic;
+  }
+
+  @Secured(SecurityRule.IS_ANONYMOUS)
   @Get(value = "/hello", produces = MediaType.APPLICATION_JSON)
   public String hello() {
-    return Main.getGson().toJson(new ExampleClass("Hello", "world!"));
+    return logic.hello();
   }
 
 }
