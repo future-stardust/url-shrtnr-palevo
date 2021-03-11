@@ -12,7 +12,7 @@ import io.micronaut.security.rules.SecurityRule;
  */
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @Controller
-public class ApiController {
+public class AuthenticatedApiController {
 
   record ExampleClass(String first, String second) {}
 
