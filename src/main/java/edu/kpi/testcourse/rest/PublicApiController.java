@@ -29,6 +29,12 @@ public class PublicApiController {
     this.logic = logic;
   }
 
+  /**
+   * Sign-up (user creation) request.
+   *
+   * @param request request with email and password
+   * @return nothing or error description
+   */
   @Post(value = "/users/signup", produces = MediaType.APPLICATION_JSON)
   public HttpResponse<String> signup(UserSignupRequest request) {
     try {

@@ -17,7 +17,7 @@ public interface UserRepository {
   /**
    * Finds a user by email.
    *
-   * @returns complete information about the user with the given email or null if the user does not
+   * @return complete information about the user with the given email or null if the user does not
    *          exist.
    */
   @Nullable User findUser(String email);

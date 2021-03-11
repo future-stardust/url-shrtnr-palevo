@@ -35,13 +35,12 @@ public class AuthenticationProviderUserPassword implements AuthenticationProvide
       @Nullable HttpRequest<?> httpRequest,
       AuthenticationRequest<?, ?> authenticationRequest
   ) {
-    // TODO Here you need to implement an actual authentication (ensure that the user is registered
-    //  and password is OK)
     return Flowable.create(emitter -> {
-      if (authenticationRequest.getIdentity().equals("sherlock")
-          && authenticationRequest.getSecret().equals("password")) {
+      String email = (String) authenticationRequest.getIdentity();
+      String password = (String) authenticationRequest.getSecret();
+      if (logic.isUserValid(email, password)) {
         emitter
-          .onNext(new UserDetails((String) authenticationRequest.getIdentity(), new ArrayList<>()));
+          .onNext(new UserDetails(email, new ArrayList<>()));
         emitter.onComplete();
       } else {
         emitter.onError(new AuthenticationException(new AuthenticationFailed()));
