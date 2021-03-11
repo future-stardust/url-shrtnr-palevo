@@ -11,7 +11,9 @@ public class UserRepositoryFakeImpl implements UserRepository {
 
   @Override
   public void createUser(User user) {
-    users.put(user.email(), user);
+    if (users.putIfAbsent(user.email(), user) != null) {
+      throw new RuntimeException("User already exists");
+    }
   }
 
   @Override

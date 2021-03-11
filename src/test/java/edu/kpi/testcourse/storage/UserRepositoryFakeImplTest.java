@@ -23,6 +23,18 @@ class UserRepositoryFakeImplTest {
   }
 
   @Test
+  void doesNotCreateDuplicateUser() {
+    // GIVEN
+    var userRepository = new UserRepositoryFakeImpl();
+    var email = "user1@example.org";
+    var user = new User(email, "hash1");
+    userRepository.createUser(user);
+
+    // WHEN + THEN
+    assertThrows(RuntimeException.class, () -> userRepository.createUser(user));
+  }
+
+  @Test
   void findsCorrectUser() {
     // GIVEN
     var userRepository = new UserRepositoryFakeImpl();
