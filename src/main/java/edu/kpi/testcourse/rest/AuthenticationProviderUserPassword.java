@@ -1,5 +1,6 @@
 package edu.kpi.testcourse.rest;
 
+import edu.kpi.testcourse.logic.Logic;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.security.authentication.AuthenticationException;
@@ -11,6 +12,7 @@ import io.micronaut.security.authentication.UserDetails;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import java.util.ArrayList;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.reactivestreams.Publisher;
 
@@ -20,6 +22,13 @@ import org.reactivestreams.Publisher;
  */
 @Singleton
 public class AuthenticationProviderUserPassword implements AuthenticationProvider {
+
+  private final Logic logic;
+
+  @Inject
+  public AuthenticationProviderUserPassword(Logic logic) {
+    this.logic = logic;
+  }
 
   @Override
   public Publisher<AuthenticationResponse> authenticate(
