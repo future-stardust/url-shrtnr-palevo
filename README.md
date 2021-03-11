@@ -1,4 +1,4 @@
-# One - URL shortener {🧪}
+# One - URL shortener 🍭
 
 This is a sample solution project for "Software testing" course labs.
 
