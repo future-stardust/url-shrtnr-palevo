@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
  */
 public interface AuthTokenRepository {
   void createToken(AuthToken authToken);
-  @Nullable
-  AuthToken findToken(String token);
+  @Nullable AuthToken findToken(String token);
   void deleteToken(String token);
 }

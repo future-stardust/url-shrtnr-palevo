@@ -14,7 +14,7 @@ public class AuthTokenRepositoryFakeImpl implements AuthTokenRepository {
   }
 
   @Override
-  public AuthToken findToken(String token) {
+  public @Nullable AuthToken findToken(String token) {
     return map.get(token);
   }
 
