@@ -1,27 +1,14 @@
-# {Team Name} - URL shortener {🧪}
+# One - URL shortener {🧪}
 
-This is a template project for "Software testing" course labs. Use it to create your own repo and 
-fulfill/rewrite this document (at least, replace everything in `{...}`).
+This is a sample solution project for "Software testing" course labs.
 
-## Students group
+## Specification
 
-- {Surname Name (in Ukrainian)} {email}
-- ...
-- {Surname Name (in Ukrainian)} {email}
-
-## Design document
-
-The [design document]({Place actual link to the design document Google Docs file here}) that
-describes architecture and implementation details of this project.
+See
+[specification](https://docs.google.com/document/d/1RIQWpiXRuxUmI_VhMZjo-UgxMxjEIXIpC2tmMY_ZpuE/edit)
+for the requirements.
 
 ### System structure
-
-After the third laboratory assignment groups will switch projects with one another. Because of this,
-all projects have to have the same high-level structure. Also, this is the reason why you should not
-modify project dependencies.
-
-Please remember that the main goal of the course is **testing** and everything else is just an 
-implementation harness.
 
 There are four modules:
 - `auth` **authentication module** - creates new users, authenticates existing ones
