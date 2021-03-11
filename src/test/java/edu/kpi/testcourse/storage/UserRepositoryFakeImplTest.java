@@ -52,4 +52,13 @@ class UserRepositoryFakeImplTest {
     assertThat(userRepository.findUser(email2)).isEqualTo(user2);
   }
 
+  @Test
+  void doesNotFindNonexistentUser() {
+    // GIVEN + WHEN
+    var userRepository = new UserRepositoryFakeImpl();
+
+    // THEN
+    assertThat(userRepository.findUser("user1@example.org")).isEqualTo(null);
+  }
+
 }
