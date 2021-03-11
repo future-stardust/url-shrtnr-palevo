@@ -1,9 +1,26 @@
 package edu.kpi.testcourse.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import edu.kpi.testcourse.logic.Logic;
+import edu.kpi.testcourse.rest.models.ErrorResponse;
+import edu.kpi.testcourse.rest.models.UrlShortenRequest;
+import edu.kpi.testcourse.rest.models.UrlShortenResponse;
+import edu.kpi.testcourse.storage.UrlRepository.AliasAlreadyExist;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.server.util.HttpHostResolver;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
+import io.micronaut.web.router.RouteBuilder;
+import io.micronaut.web.router.RouteBuilder.UriNamingStrategy;
+import java.security.Principal;
 import javax.inject.Inject;
 
 /**
@@ -14,10 +31,47 @@ import javax.inject.Inject;
 public class AuthenticatedApiController {
 
   private final Logic logic;
+  private final ObjectMapper objectMapper;
+  private final HttpHostResolver httpHostResolver;
 
+  /**
+   * Main constructor.
+   *
+   * @param logic the business logic module
+   * @param objectMapper the JSON serializer
+   * @param httpHostResolver micronaut httpHostResolver
+   */
   @Inject
-  public AuthenticatedApiController(Logic logic) {
+  public AuthenticatedApiController(
+      Logic logic,
+      ObjectMapper objectMapper,
+      HttpHostResolver httpHostResolver
+  ) {
     this.logic = logic;
+    this.objectMapper = objectMapper;
+    this.httpHostResolver = httpHostResolver;
+  }
+
+  /**
+   * Create URL alias.
+   */
+  @Post(value = "/urls/shorten", processes = MediaType.APPLICATION_JSON)
+  public HttpResponse<String> shorten(
+      @Body UrlShortenRequest request,
+      Principal principal,
+      HttpRequest<?> httpRequest
+  ) throws JsonProcessingException {
+    String email = principal.getName();
+    try {
+      String host = httpHostResolver.resolve(httpRequest);
+      var shortenedUrl = host + "/r/" + logic.createNewAlias(email, request.url(), request.alias());
+      return HttpResponse.created(
+        objectMapper.writeValueAsString(new UrlShortenResponse(shortenedUrl)));
+    } catch (AliasAlreadyExist e) {
+      return HttpResponse.serverError(
+        objectMapper.writeValueAsString(new ErrorResponse(1, "Alias is already taken"))
+      );
+    }
   }
 
 }
