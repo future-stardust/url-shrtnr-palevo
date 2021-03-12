@@ -46,7 +46,7 @@ public class UserRepositoryFileImpl implements UserRepository {
   }
 
   @Override
-  public void createUser(User user) {
+  public synchronized void createUser(User user) {
     if (users.putIfAbsent(user.email(), user) != null) {
       throw new RuntimeException("User already exists");
     }
@@ -54,7 +54,7 @@ public class UserRepositoryFileImpl implements UserRepository {
   }
 
   @Override
-  public @Nullable User findUser(String email) {
+  public synchronized @Nullable User findUser(String email) {
     return users.get(email);
   }
 
@@ -78,7 +78,7 @@ public class UserRepositoryFileImpl implements UserRepository {
     return result;
   }
 
-  private void writeToFile() {
+  private synchronized void writeToFile() {
     String json = gson.toJson(users);
     try {
       Files.write(getJsonFilePath(), json.getBytes(StandardCharsets.UTF_8));
