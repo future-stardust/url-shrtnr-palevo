@@ -2,6 +2,7 @@ package edu.kpi.testcourse.logic;
 
 import edu.kpi.testcourse.entities.UrlAlias;
 import edu.kpi.testcourse.entities.User;
+import edu.kpi.testcourse.storage.UrlRepository.AliasAlreadyExist;
 import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepositoryFakeImpl;
 import org.junit.jupiter.api.Test;
@@ -75,5 +76,19 @@ class LogicTest {
     // THEN
     assertThat(shortUrl).isEqualTo("short");
     assertThat(logic.findFullUrl("short")).isEqualTo("http://g.com/loooong_url");
+  }
+
+  @Test
+  void shouldNotAllowToCreateSameAliasTwice() {
+    // GIVEN
+    Logic logic = createLogic();
+
+    // WHEN
+    var shortUrl = logic.createNewAlias("aaa@bbb.com", "http://g.com/loooong_url", "short");
+
+    // THEN
+    assertThatThrownBy(() -> {
+      logic.createNewAlias("ddd@bbb.com", "http://d.com/laaaang_url", "short");
+    }).isInstanceOf(AliasAlreadyExist.class);
   }
 }

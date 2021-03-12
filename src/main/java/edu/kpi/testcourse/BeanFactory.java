@@ -2,6 +2,8 @@ package edu.kpi.testcourse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.kpi.testcourse.logic.Logic;
+import edu.kpi.testcourse.serialization.JsonTool;
+import edu.kpi.testcourse.serialization.JsonToolJacksonImpl;
 import edu.kpi.testcourse.storage.UrlRepository;
 import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepository;
@@ -32,7 +34,7 @@ public class BeanFactory {
   }
 
   @Singleton
-  ObjectMapper createObjectMapper() {
-    return new ObjectMapper();
+  JsonTool createObjectMapper() {
+    return new JsonToolJacksonImpl();
   }
 }
