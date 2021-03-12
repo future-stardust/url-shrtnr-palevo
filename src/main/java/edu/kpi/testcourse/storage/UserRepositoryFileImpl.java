@@ -33,7 +33,7 @@ public class UserRepositoryFileImpl implements UserRepository {
   public UserRepositoryFileImpl(Gson gson) {
     this.gson = gson;
     this.storageRoot = "/tmp/url-shortener-db";
-    this.users = readUsersFromJsonDatabaseFile();
+    this.users = readUsersFromJsonDatabaseFile(gson, makeJsonFilePath(storageRoot));
   }
 
   /**
@@ -42,7 +42,7 @@ public class UserRepositoryFileImpl implements UserRepository {
   UserRepositoryFileImpl(Gson gson, String storageRoot) {
     this.gson = gson;
     this.storageRoot = storageRoot;
-    this.users = readUsersFromJsonDatabaseFile();
+    this.users = readUsersFromJsonDatabaseFile(gson, makeJsonFilePath(storageRoot));
   }
 
   @Override
@@ -50,7 +50,7 @@ public class UserRepositoryFileImpl implements UserRepository {
     if (users.putIfAbsent(user.email(), user) != null) {
       throw new RuntimeException("User already exists");
     }
-    writeUsersToJsonDatabaseFile();
+    writeUsersToJsonDatabaseFile(gson, users, makeJsonFilePath(storageRoot));
   }
 
   @Override
@@ -58,14 +58,14 @@ public class UserRepositoryFileImpl implements UserRepository {
     return users.get(email);
   }
 
-  private Path getJsonFilePath() {
+  private static Path makeJsonFilePath(String storageRoot) {
     return Paths.get(storageRoot + "/user-repository.json");
   }
 
-  private Map<String, User> readUsersFromJsonDatabaseFile() {
+  private static Map<String, User> readUsersFromJsonDatabaseFile(Gson gson, Path sourceFilePath) {
     String json;
     try {
-      json = Files.readString(getJsonFilePath(), StandardCharsets.UTF_8);
+      json = Files.readString(sourceFilePath, StandardCharsets.UTF_8);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -77,10 +77,12 @@ public class UserRepositoryFileImpl implements UserRepository {
     return result;
   }
 
-  private synchronized void writeUsersToJsonDatabaseFile() {
+  private static void writeUsersToJsonDatabaseFile(
+      Gson gson, Map<String, User> users, Path destinationFilePath
+  ) {
     String json = gson.toJson(users);
     try {
-      Files.write(getJsonFilePath(), json.getBytes(StandardCharsets.UTF_8));
+      Files.write(destinationFilePath, json.getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
