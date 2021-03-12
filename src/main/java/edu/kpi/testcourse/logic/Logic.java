@@ -1,9 +1,10 @@
 package edu.kpi.testcourse.logic;
 
+import edu.kpi.testcourse.entities.UrlAlias;
 import edu.kpi.testcourse.entities.User;
 import edu.kpi.testcourse.storage.UrlRepository;
+import edu.kpi.testcourse.storage.UrlRepository.AliasAlreadyExist;
 import edu.kpi.testcourse.storage.UserRepository;
-import javax.inject.Inject;
 
 /**
  * Business logic of the URL shortener application.
@@ -16,7 +17,6 @@ public class Logic {
   /**
    * Creates an instance.
    */
-  @Inject
   public Logic(UserRepository users, UrlRepository urls) {
     this.users = users;
     this.urls = urls;
@@ -52,6 +52,45 @@ public class Logic {
     }
 
     return hashUtils.validatePassword(password, user.passwordHash());
+  }
+
+  /**
+   * Create a new URL alias (shortened version).
+   *
+   * @param email an email of a user that creates the alias
+   * @param url a full URL
+   * @param alias a proposed alias
+   *
+   * @return a shortened URL
+   */
+  public String createNewAlias(String email, String url, String alias) throws AliasAlreadyExist {
+    String finalAlias;
+    if (alias == null || alias.isEmpty()) {
+      // TODO: Generate short alias
+      throw new UnsupportedOperationException("Is not implemented yet");
+    } else {
+      finalAlias = alias;
+    }
+
+    urls.createUrlAlias(new UrlAlias(finalAlias, url, email));
+
+    return finalAlias;
+  }
+
+  /**
+   * Get full URL by alias.
+   *
+   * @param alias a short URL alias
+   * @return a full URL
+   */
+  public String findFullUrl(String alias) {
+    UrlAlias urlAlias = urls.findUrlAlias(alias);
+
+    if (urlAlias != null) {
+      return urlAlias.destinationUrl();
+    }
+
+    return null;
   }
 
   /**

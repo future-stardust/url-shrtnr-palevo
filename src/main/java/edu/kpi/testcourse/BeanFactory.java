@@ -1,5 +1,7 @@
 package edu.kpi.testcourse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.kpi.testcourse.logic.Logic;
 import edu.kpi.testcourse.storage.UrlRepository;
 import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepository;
@@ -12,6 +14,7 @@ import javax.inject.Singleton;
  */
 @Factory
 public class BeanFactory {
+  private final String baseUrl = "http://localhost:8080";
 
   @Singleton
   UrlRepository createUrlRepository() {
@@ -21,5 +24,15 @@ public class BeanFactory {
   @Singleton
   UserRepository createUserRepository() {
     return new UserRepositoryFakeImpl();
+  }
+
+  @Singleton
+  Logic createLogic(UserRepository users, UrlRepository urls) {
+    return new Logic(users, urls);
+  }
+
+  @Singleton
+  ObjectMapper createObjectMapper() {
+    return new ObjectMapper();
   }
 }

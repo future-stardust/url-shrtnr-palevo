@@ -19,7 +19,7 @@ public class LogicTestPropertyBased {
         strings().basicLatinAlphabet().ofLengthBetween(0, 10)
       ).check((email, password) -> {
       // GIVEN
-      Logic logic = new Logic(new UserRepositoryFakeImpl(), new UrlRepositoryFakeImpl());
+      Logic logic = createLogic();
 
       try {
         // WHEN
@@ -31,6 +31,11 @@ public class LogicTestPropertyBased {
       // THEN
       return logic.isUserValid(email, password);
     });
+  }
+
+  private Logic createLogic() {
+    return new Logic(new UserRepositoryFakeImpl(), new UrlRepositoryFakeImpl()
+    );
   }
 
 }
