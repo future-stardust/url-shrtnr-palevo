@@ -33,7 +33,7 @@ public class UserRepositoryFileImpl implements UserRepository {
   public UserRepositoryFileImpl(Gson gson) {
     this.gson = gson;
     this.storageRoot = "/tmp/url-shortener-db";
-    this.users = readFromFile();
+    this.users = readUsersFromJsonDatabaseFile();
   }
 
   /**
@@ -42,7 +42,7 @@ public class UserRepositoryFileImpl implements UserRepository {
   UserRepositoryFileImpl(Gson gson, String storageRoot) {
     this.gson = gson;
     this.storageRoot = storageRoot;
-    this.users = readFromFile();
+    this.users = readUsersFromJsonDatabaseFile();
   }
 
   @Override
@@ -50,7 +50,7 @@ public class UserRepositoryFileImpl implements UserRepository {
     if (users.putIfAbsent(user.email(), user) != null) {
       throw new RuntimeException("User already exists");
     }
-    writeToFile();
+    writeUsersToJsonDatabaseFile();
   }
 
   @Override
@@ -62,7 +62,7 @@ public class UserRepositoryFileImpl implements UserRepository {
     return Paths.get(storageRoot + "/user-repository.json");
   }
 
-  private Map<String, User> readFromFile() {
+  private Map<String, User> readUsersFromJsonDatabaseFile() {
     String json;
     try {
       json = Files.readString(getJsonFilePath(), StandardCharsets.UTF_8);
@@ -77,7 +77,7 @@ public class UserRepositoryFileImpl implements UserRepository {
     return result;
   }
 
-  private synchronized void writeToFile() {
+  private synchronized void writeUsersToJsonDatabaseFile() {
     String json = gson.toJson(users);
     try {
       Files.write(getJsonFilePath(), json.getBytes(StandardCharsets.UTF_8));
