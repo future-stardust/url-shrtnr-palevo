@@ -60,8 +60,9 @@ public class AuthenticatedApiController {
   ) throws JsonProcessingException {
     String email = principal.getName();
     try {
-      String host = httpHostResolver.resolve(httpRequest);
-      var shortenedUrl = host + "/r/" + logic.createNewAlias(email, request.url(), request.alias());
+      String baseUrl = httpHostResolver.resolve(httpRequest);
+      var shortenedUrl = baseUrl + "/r/"
+          + logic.createNewAlias(email, request.url(), request.alias());
       return HttpResponse.created(
         json.toJson(new UrlShortenResponse(shortenedUrl)));
     } catch (AliasAlreadyExist e) {
