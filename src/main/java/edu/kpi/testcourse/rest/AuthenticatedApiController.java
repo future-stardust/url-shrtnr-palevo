@@ -2,7 +2,6 @@ package edu.kpi.testcourse.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import edu.kpi.testcourse.logic.Logic;
 import edu.kpi.testcourse.rest.models.ErrorResponse;
 import edu.kpi.testcourse.rest.models.UrlShortenRequest;
@@ -13,13 +12,10 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.server.util.HttpHostResolver;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
-import io.micronaut.web.router.RouteBuilder;
-import io.micronaut.web.router.RouteBuilder.UriNamingStrategy;
 import java.security.Principal;
 import javax.inject.Inject;
 
@@ -73,5 +69,4 @@ public class AuthenticatedApiController {
       );
     }
   }
-
 }

@@ -9,9 +9,11 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
+import java.net.URI;
 import javax.inject.Inject;
 
 /**
@@ -44,6 +46,21 @@ public class PublicApiController {
     } catch (Logic.UserIsAlreadyCreated e) {
       return HttpResponse.serverError(
         objectMapper.writeValueAsString(new ErrorResponse(0, e.getMessage())));
+    }
+  }
+
+  /**
+   * Redirection to a full URL by alias.
+   *
+   * @param alias a short URL alias
+   */
+  @Get(value = "/r/{alias}")
+  public HttpResponse<?> redirect(String alias) {
+    String fullUrl = logic.findFullUrl(alias);
+    if (fullUrl != null) {
+      return HttpResponse.redirect(URI.create(fullUrl));
+    } else {
+      return HttpResponse.notFound();
     }
   }
 }

@@ -78,6 +78,22 @@ public class Logic {
   }
 
   /**
+   * Get full URL by alias.
+   *
+   * @param alias a short URL alias
+   * @return a full URL
+   */
+  public String findFullUrl(String alias) {
+    UrlAlias urlAlias = urls.findUrlAlias(alias);
+
+    if (urlAlias != null) {
+      return urlAlias.destinationUrl();
+    }
+
+    return null;
+  }
+
+  /**
    * Error for situation when we are trying to register already registered user.
    */
   public static class UserIsAlreadyCreated extends Throwable {

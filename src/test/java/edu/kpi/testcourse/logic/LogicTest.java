@@ -74,6 +74,6 @@ class LogicTest {
 
     // THEN
     assertThat(shortUrl).isEqualTo("short");
-    assertThat(urls.findUrlAlias("short")).isEqualTo(new UrlAlias("short", "http://g.com/loooong_url", "aaa@bbb.com"));
+    assertThat(logic.findFullUrl("short")).isEqualTo("http://g.com/loooong_url");
   }
 }
