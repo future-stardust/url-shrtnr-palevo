@@ -6,6 +6,7 @@ import edu.kpi.testcourse.logic.Logic;
 import edu.kpi.testcourse.rest.models.ErrorResponse;
 import edu.kpi.testcourse.rest.models.UrlShortenRequest;
 import edu.kpi.testcourse.rest.models.UrlShortenResponse;
+import edu.kpi.testcourse.serialization.JsonTool;
 import edu.kpi.testcourse.storage.UrlRepository.AliasAlreadyExist;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
@@ -27,24 +28,24 @@ import javax.inject.Inject;
 public class AuthenticatedApiController {
 
   private final Logic logic;
-  private final ObjectMapper objectMapper;
+  private final JsonTool json;
   private final HttpHostResolver httpHostResolver;
 
   /**
    * Main constructor.
    *
    * @param logic the business logic module
-   * @param objectMapper the JSON serializer
+   * @param json JSON serialization tool
    * @param httpHostResolver micronaut httpHostResolver
    */
   @Inject
   public AuthenticatedApiController(
       Logic logic,
-      ObjectMapper objectMapper,
+      JsonTool json,
       HttpHostResolver httpHostResolver
   ) {
     this.logic = logic;
-    this.objectMapper = objectMapper;
+    this.json = json;
     this.httpHostResolver = httpHostResolver;
   }
 
@@ -62,10 +63,10 @@ public class AuthenticatedApiController {
       String host = httpHostResolver.resolve(httpRequest);
       var shortenedUrl = host + "/r/" + logic.createNewAlias(email, request.url(), request.alias());
       return HttpResponse.created(
-        objectMapper.writeValueAsString(new UrlShortenResponse(shortenedUrl)));
+        json.toJson(new UrlShortenResponse(shortenedUrl)));
     } catch (AliasAlreadyExist e) {
       return HttpResponse.serverError(
-        objectMapper.writeValueAsString(new ErrorResponse(1, "Alias is already taken"))
+        json.toJson(new ErrorResponse(1, "Alias is already taken"))
       );
     }
   }
