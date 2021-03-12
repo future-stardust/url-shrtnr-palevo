@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
- * An file-backed implementation of {@link UserRepository} suitable for use in production.
+ * A file-backed implementation of {@link UserRepository} suitable for use in production.
  */
 public class UserRepositoryFileImpl implements UserRepository {
   private final Map<String, User> users;
