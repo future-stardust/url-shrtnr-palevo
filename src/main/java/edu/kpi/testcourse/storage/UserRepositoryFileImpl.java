@@ -18,8 +18,12 @@ import javax.inject.Inject;
  * A file-backed implementation of {@link UserRepository} suitable for use in production.
  */
 public class UserRepositoryFileImpl implements UserRepository {
+  // User profiles, keyed by email.
   private final Map<String, User> users;
+
   private final Gson gson;
+
+  // Full path to the DB root directory.
   private final String storageRoot;
 
   /**
