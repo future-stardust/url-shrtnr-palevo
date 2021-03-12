@@ -67,7 +67,6 @@ public class UserRepositoryFileImpl implements UserRepository {
     try {
       json = Files.readString(getJsonFilePath(), StandardCharsets.UTF_8);
     } catch (IOException e) {
-      e.printStackTrace();
       throw new RuntimeException(e);
     }
     Type type = new TypeToken<HashMap<String, User>>(){}.getType();
@@ -83,7 +82,6 @@ public class UserRepositoryFileImpl implements UserRepository {
     try {
       Files.write(getJsonFilePath(), json.getBytes(StandardCharsets.UTF_8));
     } catch (IOException e) {
-      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
