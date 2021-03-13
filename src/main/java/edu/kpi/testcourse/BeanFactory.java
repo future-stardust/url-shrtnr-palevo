@@ -2,6 +2,7 @@ package edu.kpi.testcourse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.kpi.testcourse.logic.Logic;
+import edu.kpi.testcourse.logic.UrlShortenerConfig;
 import edu.kpi.testcourse.serialization.JsonTool;
 import edu.kpi.testcourse.serialization.JsonToolJacksonImpl;
 import edu.kpi.testcourse.storage.UrlRepository;
@@ -36,5 +37,10 @@ public class BeanFactory {
   @Singleton
   JsonTool createObjectMapper() {
     return new JsonToolJacksonImpl();
+  }
+
+  @Singleton
+  UrlShortenerConfig createUrlShortenerConfig() {
+    return new UrlShortenerConfig();
   }
 }
