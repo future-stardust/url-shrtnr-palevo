@@ -1,16 +1,14 @@
 package edu.kpi.testcourse.storage;
 
-import com.google.gson.Gson;
 import edu.kpi.testcourse.entities.User;
 import edu.kpi.testcourse.logic.UrlShortenerConfig;
+import edu.kpi.testcourse.serialization.JsonToolJacksonImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,7 +27,7 @@ class UserRepositoryFileImplTest {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
-    userRepository = new UserRepositoryFileImpl(new Gson(), appConfig);
+    userRepository = new UserRepositoryFileImpl(new JsonToolJacksonImpl(), appConfig);
   }
 
   @AfterEach
