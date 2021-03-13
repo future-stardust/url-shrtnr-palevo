@@ -2,6 +2,7 @@ package edu.kpi.testcourse.storage;
 
 import com.google.gson.Gson;
 import edu.kpi.testcourse.entities.User;
+import edu.kpi.testcourse.logic.UrlShortenerConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,26 +16,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserRepositoryFileImplTest {
-  Path repositoryDirectory;
+  UrlShortenerConfig appConfig;
   UserRepository userRepository;
 
   @BeforeEach
   void setUp() {
     try {
-      repositoryDirectory = Files.createTempDirectory("user-repository-file-test");
-      Files.write(repositoryDirectory.resolve("user-repository.json"), "{}".getBytes());
+      appConfig = new UrlShortenerConfig(
+        Files.createTempDirectory("user-repository-file-test"));
+      Files.write(appConfig.storageRoot().resolve("user-repository.json"), "{}".getBytes());
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
-    userRepository = new UserRepositoryFileImpl(new Gson(), repositoryDirectory.toString());
+    userRepository = new UserRepositoryFileImpl(new Gson(), appConfig);
   }
 
   @AfterEach
   void tearDown() {
     try {
-      Files.delete(repositoryDirectory.resolve("user-repository.json"));
-      Files.delete(repositoryDirectory);
+      Files.delete(appConfig.storageRoot().resolve("user-repository.json"));
+      Files.delete(appConfig.storageRoot());
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException(e);
@@ -65,7 +67,7 @@ class UserRepositoryFileImplTest {
 
     // THEN
     assertThat(
-      Files.readString(repositoryDirectory.resolve("user-repository.json"), StandardCharsets.UTF_8))
+      Files.readString(appConfig.storageRoot().resolve("user-repository.json"), StandardCharsets.UTF_8))
       .isEqualTo("{\"user1@example.org\":{\"email\":\"user1@example.org\",\"passwordHash\":\"hash1\"}}");
   }
 

@@ -3,12 +3,12 @@ package edu.kpi.testcourse.storage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import edu.kpi.testcourse.entities.User;
+import edu.kpi.testcourse.logic.UrlShortenerConfig;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -22,27 +22,16 @@ public class UserRepositoryFileImpl implements UserRepository {
   private final Map<String, User> users;
 
   private final Gson gson;
-
-  // Full path to the DB root directory.
-  private final String storageRoot;
+  private final UrlShortenerConfig appConfig;
 
   /**
-   * Creates an instance for production.
+   * Creates an instance.
    */
   @Inject
-  public UserRepositoryFileImpl(Gson gson) {
+  public UserRepositoryFileImpl(Gson gson, UrlShortenerConfig appConfig) {
     this.gson = gson;
-    this.storageRoot = "/tmp/url-shortener-db";
-    this.users = readUsersFromJsonDatabaseFile(gson, makeJsonFilePath(storageRoot));
-  }
-
-  /**
-   * Creates an instance for use in unit tests.
-   */
-  UserRepositoryFileImpl(Gson gson, String storageRoot) {
-    this.gson = gson;
-    this.storageRoot = storageRoot;
-    this.users = readUsersFromJsonDatabaseFile(gson, makeJsonFilePath(storageRoot));
+    this.appConfig = appConfig;
+    this.users = readUsersFromJsonDatabaseFile(gson, makeJsonFilePath(appConfig.storageRoot()));
   }
 
   @Override
@@ -50,7 +39,7 @@ public class UserRepositoryFileImpl implements UserRepository {
     if (users.putIfAbsent(user.email(), user) != null) {
       throw new RuntimeException("User already exists");
     }
-    writeUsersToJsonDatabaseFile(gson, users, makeJsonFilePath(storageRoot));
+    writeUsersToJsonDatabaseFile(gson, users, makeJsonFilePath(appConfig.storageRoot()));
   }
 
   @Override
@@ -58,8 +47,8 @@ public class UserRepositoryFileImpl implements UserRepository {
     return users.get(email);
   }
 
-  private static Path makeJsonFilePath(String storageRoot) {
-    return Paths.get(storageRoot + "/user-repository.json");
+  private static Path makeJsonFilePath(Path storageRoot) {
+    return storageRoot.resolve("user-repository.json");
   }
 
   private static Map<String, User> readUsersFromJsonDatabaseFile(Gson gson, Path sourceFilePath) {

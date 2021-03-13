@@ -10,6 +10,7 @@ import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepository;
 import edu.kpi.testcourse.storage.UserRepositoryFakeImpl;
 import io.micronaut.context.annotation.Factory;
+import java.nio.file.Paths;
 import javax.inject.Singleton;
 
 /**
@@ -41,6 +42,6 @@ public class BeanFactory {
 
   @Singleton
   UrlShortenerConfig createUrlShortenerConfig() {
-    return new UrlShortenerConfig();
+    return new UrlShortenerConfig(Paths.get("/home/user/url-shortener-db"));
   }
 }
