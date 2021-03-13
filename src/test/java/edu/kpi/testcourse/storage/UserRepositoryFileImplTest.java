@@ -70,6 +70,21 @@ class UserRepositoryFileImplTest {
   }
 
   @Test
+  void deserializesOneUser() {
+    // GIVEN
+    var email = "user1@example.org";
+    var user = new User(email, "hash1");
+    userRepository.createUser(user);
+
+    // WHEN
+    // The new repository instance must read the data in constructor.
+    userRepository = new UserRepositoryFileImpl(new JsonToolJacksonImpl(), appConfig);
+
+    // THEN
+    assertThat(userRepository.findUser(email)).isEqualTo(user);
+  }
+
+  @Test
   void doesNotCreateDuplicateUser() {
     // GIVEN
     var email = "user1@example.org";
