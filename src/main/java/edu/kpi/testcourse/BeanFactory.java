@@ -2,6 +2,7 @@ package edu.kpi.testcourse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.kpi.testcourse.logic.Logic;
+import edu.kpi.testcourse.logic.UrlShortenerConfig;
 import edu.kpi.testcourse.serialization.JsonTool;
 import edu.kpi.testcourse.serialization.JsonToolJacksonImpl;
 import edu.kpi.testcourse.storage.UrlRepository;
@@ -9,6 +10,7 @@ import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepository;
 import edu.kpi.testcourse.storage.UserRepositoryFakeImpl;
 import io.micronaut.context.annotation.Factory;
+import java.nio.file.Paths;
 import javax.inject.Singleton;
 
 /**
@@ -36,5 +38,10 @@ public class BeanFactory {
   @Singleton
   JsonTool createObjectMapper() {
     return new JsonToolJacksonImpl();
+  }
+
+  @Singleton
+  UrlShortenerConfig createUrlShortenerConfig() {
+    return new UrlShortenerConfig(Paths.get("/home/user/url-shortener-db"));
   }
 }
