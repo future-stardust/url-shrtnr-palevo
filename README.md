@@ -17,9 +17,9 @@ curl --request POST \
   --url http://localhost:8080/users/signup \
   --header 'content-type: application/json' \
   --data '{
-	"email": "aaa@example.com",
-	"password": "passw000rd"
-}'
+  "email": "aaa@example.com",
+  "password": "passw000rd"
+}' -v
 ```
 
 2. Login
@@ -29,9 +29,9 @@ curl --request POST \
   --url http://localhost:8080/login \
   --header 'content-type: application/json' \
   --data '{
-	"username": "aaa@example.com",
-	"password": "passw000rd"
-}'
+  "username": "aaa@example.com",
+  "password": "passw000rd"
+}' -v
 ```
 
 3. Shorten URL
@@ -44,13 +44,13 @@ curl --request POST \
   --data '{
   "url": "https://github.com/future-stardust/url-shrtnr-palevo",
   "alias": "palevo"
-}'
+}' -v
 ```
 
 4. Redirect
 
 ```shell
-curl --request GET --url http://localhost:8080/r/abcd
+curl --request GET --url http://localhost:8080/r/palevo -v
 ```
 
 ## Environment prerequisites
