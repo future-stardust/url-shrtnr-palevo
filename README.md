@@ -8,17 +8,50 @@ See
 [specification](https://docs.google.com/document/d/1RIQWpiXRuxUmI_VhMZjo-UgxMxjEIXIpC2tmMY_ZpuE/edit)
 for the requirements.
 
-### System structure
+#### Main scenario endpoints
 
-There are four modules:
-- `auth` **authentication module** - creates new users, authenticates existing ones
-- `bigtable` - **big table** - a key-value persistence storage (please, pay attention that you should implement it by
-  yourself. It means that it is not allowed to use data bases, another key-value storages 
-  implementation, etc)
-- `logic` - **business logic** - logic of URL shortening
-- `rest` - **REST API** - a module that provides a REST API. [Micronaut] framework is already added
-  to project dependencies. It simplifies creation of REST API and provides built-in JWT 
-  authentication.
+1. Sign up
+
+```shell
+curl --request POST \
+  --url http://localhost:8080/users/signup \
+  --header 'content-type: application/json' \
+  --data '{
+	"email": "aaa@example.com",
+	"password": "passw000rd"
+}'
+```
+
+2. Login
+
+```shell
+curl --request POST \
+  --url http://localhost:8080/login \
+  --header 'content-type: application/json' \
+  --data '{
+	"username": "aaa@example.com",
+	"password": "passw000rd"
+}'
+```
+
+3. Shorten URL
+
+```shell
+curl --request POST \
+  --url http://localhost:8080/urls/shorten \
+  --header 'authorization: Bearer <TOKEN FROM THE LOGIN RESPONSE>' \
+  --header 'content-type: application/json' \
+  --data '{
+  "url": "https://github.com/future-stardust/url-shrtnr-palevo",
+  "alias": "palevo"
+}'
+```
+
+4. Redirect
+
+```shell
+curl --request GET --url http://localhost:8080/r/abcd
+```
 
 ## Environment prerequisites
 
