@@ -36,7 +36,8 @@ public class AuthenticatedApiController {
 
   /**
    * Main constructor.
-   *  @param logic the business logic module
+   *
+   * @param logic the business logic module
    * @param json JSON serialization tool
    * @param httpHostResolver micronaut httpHostResolver
    * @param urlRepository the URL repository module
@@ -77,7 +78,8 @@ public class AuthenticatedApiController {
   }
 
   /**
-   * Deletes alias via requested link
+   * Deletes alias via requested link.
+   *
    * @param request to get alias from request
    * @param principal to get name as an email for delete function
    * @throws IllegalArgumentException if there is no such alias

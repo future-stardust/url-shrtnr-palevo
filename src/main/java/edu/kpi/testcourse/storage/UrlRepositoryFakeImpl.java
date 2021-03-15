@@ -29,10 +29,9 @@ public class UrlRepositoryFakeImpl implements UrlRepository {
   }
 
   /**
-   * Delete the UrlAlias if exists from aliases HashMap
+   * Delete the UrlAlias if exists from aliases HashMap.
    *
    * @param email of the user to whom the UrlAlias belongs
-   *
    * @param alias the UrlAlias which should be removed
    *
    * @throws IllegalArgumentException if no such email or alias
@@ -43,17 +42,17 @@ public class UrlRepositoryFakeImpl implements UrlRepository {
     UrlAlias foundUrlAlias = null;
 
     for (UrlAlias urlAlias: aliases.values()) {
-      if (foundUrlAlias == null){
+      if (foundUrlAlias == null) {
         if (urlAlias.email().equals(email) && urlAlias.alias().equals(alias)) {
           foundUrlAlias = urlAlias;
           break;
-        };
+        }
       }
     }
     if (foundUrlAlias == null) {
       throw new IllegalArgumentException();
     }
-    if (aliases.containsKey(alias)){
+    if (aliases.containsKey(alias)) {
       aliases.remove(alias);
     }
   }
