@@ -41,7 +41,7 @@ public class UrlRepositoryFakeImpl implements UrlRepository {
   public void deleteUrlAlias(String email, String alias) {
     UrlAlias foundUrlAlias = null;
 
-    for (UrlAlias urlAlias: aliases.values()) {
+    for (UrlAlias urlAlias : aliases.values()) {
       if (foundUrlAlias == null) {
         if (urlAlias.email().equals(email) && urlAlias.alias().equals(alias)) {
           foundUrlAlias = urlAlias;

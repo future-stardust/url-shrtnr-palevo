@@ -44,14 +44,14 @@ public class AuthenticatedApiController {
    */
   @Inject
   public AuthenticatedApiController(
-    Logic logic,
-    JsonTool json,
-    HttpHostResolver httpHostResolver,
-    UrlRepository urlRepository) {
-    this.logic = logic;
-    this.json = json;
-    this.httpHostResolver = httpHostResolver;
-    this.urlRepository = urlRepository;
+      Logic logic,
+      JsonTool json,
+      HttpHostResolver httpHostResolver,
+      UrlRepository urlRepository) {
+      this.logic = logic;
+      this.json = json;
+      this.httpHostResolver = httpHostResolver;
+      this.urlRepository = urlRepository;
   }
 
   /**
@@ -86,7 +86,7 @@ public class AuthenticatedApiController {
    */
   @Delete(value = "/urls/{alias}")
   public HttpResponse<?> delete(@Body UrlShortenRequest request,
-                                Principal principal) throws IllegalArgumentException{
+                                Principal principal) throws IllegalArgumentException {
     try {
       urlRepository.deleteUrlAlias(request.alias(), principal.getName());
       return HttpResponse.ok();
