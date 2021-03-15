@@ -48,10 +48,10 @@ public class AuthenticatedApiController {
       JsonTool json,
       HttpHostResolver httpHostResolver,
       UrlRepository urlRepository) {
-      this.logic = logic;
-      this.json = json;
-      this.httpHostResolver = httpHostResolver;
-      this.urlRepository = urlRepository;
+    this.logic = logic;
+    this.json = json;
+    this.httpHostResolver = httpHostResolver;
+    this.urlRepository = urlRepository;
   }
 
   /**
