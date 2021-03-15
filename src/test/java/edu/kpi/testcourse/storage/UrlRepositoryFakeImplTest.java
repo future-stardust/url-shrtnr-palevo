@@ -38,5 +38,38 @@ class UrlRepositoryFakeImplTest {
     }).isInstanceOf(UrlRepository.AliasAlreadyExist.class);
   }
 
+  /**
+   * Checking the main ability of delete function: TO DELETE!
+   */
+  @Test
+  void shouldDeleteChosenAlias() {
+    //GIVEN
+    UrlRepositoryFakeImpl repo = new UrlRepositoryFakeImpl();
+
+    //WHEN
+    UrlAlias alias1 = new UrlAlias("http://r.com/short", "http://g.com/long1", "aaa@bbb.com");
+    repo.createUrlAlias(alias1);
+    repo.deleteUrlAlias(alias1.email(), alias1.alias());
+
+    //THEN
+    assertFalse(repo.aliases.containsValue(alias1));
+  }
+
+  /**
+   * Test for deleting if alias wasn't added to repo
+   */
+  @Test
+  void shouldCrashOnDelete() {
+    //GIVEN
+    UrlRepositoryFakeImpl repo = new UrlRepositoryFakeImpl();
+
+    //WHEN
+    UrlAlias alias1 = new UrlAlias("http://r.com/short", "http://g.com/long1", "aaa@bbb.com");
+
+    //THEN
+    assertThrows(IllegalArgumentException.class, ()->{repo.deleteUrlAlias(alias1.email(), alias1.alias());});
+  }
+
+
 
 }
