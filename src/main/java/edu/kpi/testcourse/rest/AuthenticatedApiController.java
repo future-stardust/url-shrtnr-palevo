@@ -1,5 +1,6 @@
 package edu.kpi.testcourse.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.kpi.testcourse.logic.Logic;
@@ -13,6 +14,7 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.server.util.HttpHostResolver;
 import io.micronaut.security.annotation.Secured;
@@ -69,6 +71,26 @@ public class AuthenticatedApiController {
       return HttpResponse.serverError(
         json.toJson(new ErrorResponse(1, "Alias is already taken"))
       );
+    }
+  }
+
+  /**
+   *
+   * Generete random alias.
+   */
+  record Alias (@JsonProperty("url") String url,
+        @JsonProperty("alias") String alias,
+        @JsonProperty("url") String shortened_url){}
+
+  @Post(value = "/urls/generate_alias", processes = MediaType.APPLICATION_JSON)
+  public HttpResponse<String> generateAlias(HttpRequest<?> httpRequest){
+    String pathShortUrl = httpHostResolver.resolve(httpRequest) + "/r/";
+    try{
+      logic.generateAlias(logic, pathShortUrl);
+      return HttpResponse.accepted();
+    }catch (Exception e){
+      e.printStackTrace();
+      return HttpResponse.notFound();
     }
   }
 }
