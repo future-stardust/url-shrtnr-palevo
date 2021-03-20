@@ -1,12 +1,16 @@
-# One - URL shortener 🍭
+# KPD - URL shortener :zap:
 
-This is a sample solution project for "Software testing" course labs.
 
-## Specification
+## Students group
 
-See
-[specification](https://docs.google.com/document/d/1RIQWpiXRuxUmI_VhMZjo-UgxMxjEIXIpC2tmMY_ZpuE/edit)
-for the requirements.
+- Давиденко Ілля ilya.davydenkoo@gmail.com
+- Козирєв Олексій alexiskozyrev@gmail.com
+- Пінькавський Богдан lordeldrus@gmail.com
+
+## Design document
+
+The [design document](https://docs.google.com/document/d/1LI5nTj62YYdrZC5BI8Hh1udQL9t_SMFt_q_7fhNJwr4/edit) that
+describes architecture and implementation details of this project.
 
 #### Main scenario endpoints
 
