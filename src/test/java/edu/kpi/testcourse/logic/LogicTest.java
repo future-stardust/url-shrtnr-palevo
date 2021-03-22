@@ -91,27 +91,4 @@ class LogicTest {
       logic.createNewAlias("ddd@bbb.com", "http://d.com/laaaang_url", "short");
     }).isInstanceOf(AliasAlreadyExist.class);
   }
-
-  @Test
-  void shouldGeneratedRandomSymbolsFiveSize() {
-    Logic logic = new Logic();
-    String s = "";
-    s = logic.randomSymbols(s);
-    assertThat(s.length()).isEqualTo(5);
-  }
-
-  @Test
-  void shouldGeneratedEmailFifteenSize() {
-    Logic logic = new Logic();
-
-    assertThat(logic.generateEmail().length()).isEqualTo(15);
-  }
-
-  @Test
-  void shouldGeneratedUrlTwentyFourSize() {
-    Logic logic = new Logic();
-
-    assertThat(logic.generateUrl().length()).isEqualTo(24);
-  }
-
 }
