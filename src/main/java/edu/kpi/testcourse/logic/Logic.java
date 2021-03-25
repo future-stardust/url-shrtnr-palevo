@@ -4,7 +4,10 @@ import edu.kpi.testcourse.entities.UrlAlias;
 import edu.kpi.testcourse.entities.User;
 import edu.kpi.testcourse.storage.UrlRepository;
 import edu.kpi.testcourse.storage.UrlRepository.AliasAlreadyExist;
+import edu.kpi.testcourse.storage.UrlRepositoryFakeImpl;
 import edu.kpi.testcourse.storage.UserRepository;
+import java.util.Random;
+
 
 /**
  * Business logic of the URL shortener application.
@@ -55,6 +58,34 @@ public class Logic {
   }
 
   /**
+   * Return class object UrlsRepository.
+   */
+  public UrlRepository getUrlRepository() {
+    return urls;
+  }
+
+  /**
+   * Generate new alias until it's alias not exits in database.
+   *
+   * @param pathToShort is a path to our shorted url command
+   */
+  public String generateAlias(String pathToShort) {
+    String alias;
+    char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+    int charLength = chars.length;
+    do {
+      alias = pathToShort;
+      Random random = new Random();
+      StringBuilder aliasBuilder = new StringBuilder(alias);
+      for (int i = 0; i < 5; i++) {
+        aliasBuilder.append(chars[random.nextInt(charLength)]);
+      }
+      alias = aliasBuilder.toString();
+    } while (urls.aliasIsExist(alias));
+    return alias;
+  }
+
+  /**
    * Create a new URL alias (shortened version).
    *
    * @param email an email of a user that creates the alias
@@ -63,13 +94,18 @@ public class Logic {
    *
    * @return a shortened URL
    */
-  public String createNewAlias(String email, String url, String alias) throws AliasAlreadyExist {
-    String finalAlias;
+  public String createNewAlias(String email, String url, String alias, String pathToShort)
+                              throws AliasAlreadyExist {
+    UrlRepositoryFakeImpl urlRepositoryFake = new UrlRepositoryFakeImpl();
+    String finalAlias = "";
     if (alias == null || alias.isEmpty()) {
-      // TODO: Generate short alias
-      throw new UnsupportedOperationException("Is not implemented yet");
+      finalAlias = generateAlias(pathToShort);
     } else {
-      finalAlias = alias;
+      if (!urlRepositoryFake.aliasIsExist(alias)) {
+        finalAlias = alias;
+      } else {
+        finalAlias = generateAlias(pathToShort);
+      }
     }
 
     urls.createUrlAlias(new UrlAlias(finalAlias, url, email));
