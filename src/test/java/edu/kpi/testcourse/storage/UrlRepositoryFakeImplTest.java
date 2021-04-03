@@ -38,5 +38,27 @@ class UrlRepositoryFakeImplTest {
     }).isInstanceOf(UrlRepository.AliasAlreadyExist.class);
   }
 
+  @Test
+  void shouldDeleteOneAlias() {
+    UrlRepository urlRepository = new UrlRepositoryFakeImpl();
+    var testAlias = "testAlias";
+    var testDestinationUrl = "testDestinationUrl";
+    var testEmail = "user@test.com";
 
+    UrlAlias testUrlAlias = new UrlAlias(testAlias, testDestinationUrl, testEmail);
+    urlRepository.createUrlAlias(testUrlAlias);
+    urlRepository.deleteUrlAlias(testEmail, testAlias);
+
+    System.out.println(urlRepository.findUrlAlias(testAlias));
+    assertNull(urlRepository.findUrlAlias(testAlias));
+  }
+
+  @Test
+  void shouldThrowAliasNotExistExceptionWhenDeleteAliasThatNotExist() {
+    UrlRepository urlRepository = new UrlRepositoryFakeImpl();
+    var testAlias = "testAlias";
+    var testEmail = "user@test.com";
+
+    assertThrows(UrlRepository.AliasNotExist.class, () -> urlRepository.deleteUrlAlias(testEmail, testAlias));
+  }
 }

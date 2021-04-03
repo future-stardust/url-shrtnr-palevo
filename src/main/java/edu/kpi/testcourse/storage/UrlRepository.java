@@ -51,4 +51,13 @@ public interface UrlRepository {
       super("This operation is not allowed for the current user");
     }
   }
+
+  /**
+   * Error for a case when a user tries to delete an alias that does not exist.
+   */
+  class AliasNotExist extends RuntimeException {
+    public AliasNotExist() {
+      super("Alias was not found among created by the user");
+    }
+  }
 }
